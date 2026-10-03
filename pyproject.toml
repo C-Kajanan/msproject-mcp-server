@@ -9,16 +9,31 @@ description = "MCP server that lets Claude drive Microsoft Project desktop (Wind
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
+authors = [{ name = "C-Kajanan" }]
+keywords = ["mcp", "microsoft-project", "msproject", "claude", "com", "automation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Topic :: Office/Business :: Scheduling",
+]
 dependencies = [
-    "mcp>=1.2.0",
+    "mcp>=1.2.0,<2",  # FastMCP API; mcp 2.x renamed it to MCPServer
     "pywin32>=306; sys_platform == 'win32'",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-asyncio>=0.23"]
 
+[project.urls]
+Homepage = "https://github.com/C-Kajanan/msproject-mcp-server"
+Issues = "https://github.com/C-Kajanan/msproject-mcp-server/issues"
+
 [project.scripts]
 msproject-mcp = "msproject_mcp.server:main"
+# Same entry point under the package name, so `uvx msproject-mcp-server` works.
+msproject-mcp-server = "msproject_mcp.server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/msproject_mcp"]
