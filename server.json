@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.C-Kajanan/msproject-mcp-server",
+  "title": "Microsoft Project",
+  "description": "Drive Microsoft Project desktop on Windows: tasks, links, resources, baselines and files via COM.",
+  "repository": {
+    "url": "https://github.com/C-Kajanan/msproject-mcp-server",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "msproject-mcp-server",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MSPROJECT_VISIBLE",
+          "description": "Show the Project window (1) or run it hidden (0)",
+          "default": "1"
+        },
+        {
+          "name": "MSPROJECT_LOG_LEVEL",
+          "description": "Python log level for server logs on stderr",
+          "default": "WARNING"
+        }
+      ]
+    }
+  ]
+}

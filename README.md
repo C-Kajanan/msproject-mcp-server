@@ -2,6 +2,8 @@
 
 MCP server that lets Claude drive Microsoft Project desktop (Windows) via COM automation.
 
+<!-- mcp-name: io.github.C-Kajanan/msproject-mcp-server -->
+
 It attaches to a running copy of Project, or starts one, through the
 `MSProject.Application` COM server. Claude can then open, build and edit
 schedules: tasks, outline structure, dependencies, resources, assignments,
@@ -14,8 +16,22 @@ baselines, saving and PDF export.
 
 ## Install
 
+From PyPI (once a release is published):
+
 ```powershell
-git clone https://github.com/c-kajanan/msproject-mcp-server.git
+pip install msproject-mcp-server
+```
+
+Or run it without installing, using [uv](https://docs.astral.sh/uv/):
+
+```powershell
+uvx msproject-mcp-server
+```
+
+From source:
+
+```powershell
+git clone https://github.com/C-Kajanan/msproject-mcp-server.git
 cd msproject-mcp-server
 python -m venv .venv
 .venv\Scripts\activate
@@ -40,9 +56,13 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json`:
 }
 ```
 
+With uv, use `"command": "uvx", "args": ["msproject-mcp-server"]` instead.
+
 ### Claude Code
 
 ```powershell
+claude mcp add msproject -- uvx msproject-mcp-server
+# or, from a source checkout:
 claude mcp add msproject -- C:\path\to\msproject-mcp-server\.venv\Scripts\msproject-mcp.exe
 ```
 
@@ -102,6 +122,31 @@ model, so the tests run on any OS:
 pip install -e ".[dev]"
 pytest
 ```
+
+## Releasing
+
+Releases go to [PyPI](https://pypi.org/project/msproject-mcp-server/) and the
+[MCP Registry](https://registry.modelcontextprotocol.io) as
+`io.github.C-Kajanan/msproject-mcp-server`, via `.github/workflows/publish.yml`.
+
+One-time setup on PyPI: add a trusted publisher at
+<https://pypi.org/manage/account/publishing/> with project
+`msproject-mcp-server`, owner `C-Kajanan`, repository `msproject-mcp-server`,
+workflow `publish.yml` and environment `pypi`.
+
+To release:
+
+1. Bump `version` in `pyproject.toml` and both `version` fields in `server.json`.
+2. Merge to `main`, then tag and push:
+
+   ```bash
+   git tag v0.1.0
+   git push origin v0.1.0
+   ```
+
+The workflow checks the versions match the tag, runs the tests, publishes to
+PyPI, then publishes `server.json` to the MCP Registry using GitHub OIDC (no
+token needed).
 
 ## Limitations
 
