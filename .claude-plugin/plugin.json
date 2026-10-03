@@ -1,0 +1,21 @@
+{
+  "name": "msproject-automation",
+  "displayName": "MS Project Automation",
+  "version": "0.1.0",
+  "description": "Unofficial plugin that lets Claude build and edit schedules in Microsoft Project desktop on Windows: tasks, outline, dependencies, resources, baselines, saving and PDF export.",
+  "author": {
+    "name": "C-Kajanan",
+    "url": "https://github.com/C-Kajanan"
+  },
+  "homepage": "https://github.com/C-Kajanan/msproject-mcp-server",
+  "repository": "https://github.com/C-Kajanan/msproject-mcp-server",
+  "license": "MIT",
+  "keywords": [
+    "microsoft-project",
+    "scheduling",
+    "gantt",
+    "project-management",
+    "construction",
+    "windows"
+  ]
+}

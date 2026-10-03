@@ -1,0 +1,15 @@
+{
+  "name": "kajanan-plugins",
+  "description": "Claude plugins by C-Kajanan",
+  "owner": {
+    "name": "C-Kajanan",
+    "url": "https://github.com/C-Kajanan"
+  },
+  "plugins": [
+    {
+      "name": "msproject-automation",
+      "source": "./",
+      "description": "Unofficial plugin that lets Claude build and edit schedules in Microsoft Project desktop on Windows."
+    }
+  ]
+}
