@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "msproject": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--frozen",
+        "--project",
+        "${CLAUDE_PLUGIN_ROOT}",
+        "msproject-mcp"
+      ]
+    }
+  }
+}

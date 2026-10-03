@@ -40,6 +40,48 @@ pip install -e .
 
 `pywin32` is installed automatically on Windows.
 
+## Install as a Claude plugin
+
+This repository is also a Claude plugin named `msproject-automation`. The plugin bundles
+the MCP server with a `build-schedule` skill that tells Claude how to use the tools in
+the right order. With the plugin there is no config file to edit.
+
+The plugin starts the server with [uv](https://docs.astral.sh/uv/), so install uv once:
+
+```powershell
+winget install --id=astral-sh.uv -e
+```
+
+Then add the plugin. In Claude Code:
+
+```
+/plugin marketplace add C-Kajanan/msproject-mcp-server
+/plugin install msproject-automation@kajanan-plugins
+```
+
+In the Claude desktop app, add it from **Customize > Plugins**.
+
+The server is a local program, so it runs in Claude Code and in Cowork sessions that run
+on your computer. It does not run in chat on the web or on mobile.
+
+The first start takes a little longer because uv creates a virtual environment and
+downloads the pinned dependencies listed in `uv.lock`.
+
+### What the plugin runs and what it touches
+
+- It runs one local process: `uv run --frozen --project <plugin folder> msproject-mcp`.
+  uv installs the dependencies pinned in `uv.lock` (the `mcp` SDK, `pywin32` and their
+  dependencies) from PyPI into a `.venv` inside the plugin folder. If no suitable Python
+  is installed, uv downloads one.
+- The server talks to Microsoft Project on the same computer through COM. It starts
+  Project if it is not already running.
+- It reads and writes project files only at the paths passed to `open_project`,
+  `save_project` and `export_pdf`.
+- It makes no network requests of its own, collects no data and needs no account or API
+  key. Project data goes only to the Claude session that called the tool.
+
+This is an independent project. It is not affiliated with or endorsed by Microsoft.
+
 ## Configure your MCP client
 
 The examples use `uvx`, which downloads and runs the PyPI release. From a
@@ -174,7 +216,9 @@ workflow `publish.yml` and environment `pypi`.
 
 To release:
 
-1. Bump `version` in `pyproject.toml` and both `version` fields in `server.json`.
+1. Bump `version` in `pyproject.toml`, both `version` fields in `server.json`, and
+   `version` in `.claude-plugin/plugin.json`. If the dependencies changed, run `uv lock`
+   and commit `uv.lock`, because the plugin installs from it.
 2. Merge to `main`, then tag and push:
 
    ```bash
