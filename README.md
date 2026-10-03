@@ -40,31 +40,69 @@ pip install -e .
 
 `pywin32` is installed automatically on Windows.
 
-## Configure Claude
+## Configure your MCP client
+
+The examples use `uvx`, which downloads and runs the PyPI release. From a
+source checkout, replace `"command": "uvx", "args": ["msproject-mcp-server"]`
+with `"command": "C:\\path\\to\\msproject-mcp-server\\.venv\\Scripts\\msproject-mcp.exe"`.
+
+No API key is needed: the server talks to the copy of Project installed on the
+same machine.
 
 ### Claude Desktop
 
-Add this to `%APPDATA%\Claude\claude_desktop_config.json`:
+`%APPDATA%\Claude\claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "msproject": {
-      "command": "C:\\path\\to\\msproject-mcp-server\\.venv\\Scripts\\msproject-mcp.exe"
+      "command": "uvx",
+      "args": ["msproject-mcp-server"]
     }
   }
 }
 ```
 
-With uv, use `"command": "uvx", "args": ["msproject-mcp-server"]` instead.
-
 ### Claude Code
 
 ```powershell
 claude mcp add msproject -- uvx msproject-mcp-server
-# or, from a source checkout:
-claude mcp add msproject -- C:\path\to\msproject-mcp-server\.venv\Scripts\msproject-mcp.exe
 ```
+
+### Cursor
+
+`.cursor/mcp.json` in your project, or `~/.cursor/mcp.json` for all projects:
+
+```json
+{
+  "mcpServers": {
+    "msproject": {
+      "command": "uvx",
+      "args": ["msproject-mcp-server"]
+    }
+  }
+}
+```
+
+### VS Code
+
+`.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "msproject": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["msproject-mcp-server"]
+    }
+  }
+}
+```
+
+To keep Project's window hidden, add `"env": {"MSPROJECT_VISIBLE": "0"}` to
+any of the entries above.
 
 ### Options
 
