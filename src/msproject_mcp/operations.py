@@ -377,7 +377,8 @@ def get_project_info(app: Any, project_name: str | None = None) -> dict[str, Any
     }
 
 
-def calculate_project(app: Any) -> dict[str, Any]:
+def calculate_project(app: Any, project_name: str | None = None) -> dict[str, Any]:
+    _get_project(app, project_name).Activate()
     app.CalculateProject()
     return get_project_info(app)
 
@@ -416,6 +417,8 @@ def list_tasks(
         if max_outline_level is not None and (_safe(lambda: t.OutlineLevel, 1) or 1) > max_outline_level:
             continue
         matched.append(t)
+    if offset < 0 or limit < 0:
+        raise ProjectError("offset and limit must be non-negative.")
     page = matched[offset : offset + limit]
     return {
         "project": project.Name,
@@ -679,7 +682,7 @@ def assign_resource(
     if _safe(lambda: task.Summary, False):
         raise ProjectError("Resources should be assigned to detail tasks, not summary tasks.")
     res = _get_resource(project, resource)
-    assignment = task.Assignments.Add(TaskID=task.ID, ResourceID=res.ID, Units=units)
+    assignment = task.Assignments.Add(ResourceID=res.ID, Units=units)
     return _assignment_dict(assignment)
 
 

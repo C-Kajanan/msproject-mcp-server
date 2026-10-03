@@ -41,7 +41,7 @@ class FakeAssignments(FakeCollection):
         super().__init__()
         self.task = task
 
-    def Add(self, TaskID=None, ResourceID=None, Units=1.0):
+    def Add(self, ResourceID=None, Units=1.0):
         res = self.task.project.Resources(ResourceID)
         a = FakeAssignment(self.task, res, Units)
         self.append(a)

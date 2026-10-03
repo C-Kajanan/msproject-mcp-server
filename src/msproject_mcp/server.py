@@ -114,9 +114,9 @@ def create_server(bridge: ComBridge | None = None) -> FastMCP:
         return await call(ops.get_project_info, project_name=project_name)
 
     @mcp.tool()
-    async def calculate_project() -> dict[str, Any]:
-        """Recalculate the schedule of the active project."""
-        return await call(ops.calculate_project)
+    async def calculate_project(project_name: str | None = None) -> dict[str, Any]:
+        """Recalculate the schedule of a project (the active one by default)."""
+        return await call(ops.calculate_project, project_name=project_name)
 
     @mcp.tool()
     async def save_baseline(project_name: str | None = None) -> dict[str, Any]:

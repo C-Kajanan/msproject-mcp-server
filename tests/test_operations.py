@@ -145,3 +145,18 @@ def test_critical_path(app):
     ops.add_task(app, "B")
     app.ActiveProject.Tasks(2).Critical = True
     assert [t["name"] for t in ops.get_critical_path(app)["critical_tasks"]] == ["B"]
+
+
+def test_list_tasks_rejects_negative_pagination(app):
+    with pytest.raises(ops.ProjectError, match="non-negative"):
+        ops.list_tasks(app, offset=-1)
+    with pytest.raises(ops.ProjectError, match="non-negative"):
+        ops.list_tasks(app, limit=-1)
+
+
+def test_calculate_project_activates_named_project(app):
+    ops.create_project(app)  # Project2 becomes active
+    info = ops.calculate_project(app, project_name="Project1")
+    assert info["name"] == "Project1"
+    assert app.ActiveProject.Name == "Project1"
+    assert app.calls[-1][0] == "CalculateProject"
