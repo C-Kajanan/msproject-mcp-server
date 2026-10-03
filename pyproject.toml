@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Office/Business :: Scheduling",
 ]
 dependencies = [
-    "mcp>=1.2.0",
+    "mcp>=1.2.0,<2",  # FastMCP API; mcp 2.x renamed it to MCPServer
     "pywin32>=306; sys_platform == 'win32'",
 ]
 
