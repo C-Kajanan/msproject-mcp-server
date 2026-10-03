@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import os
 
 
 class FakeCollection(list):
@@ -233,7 +234,7 @@ class FakeApp:
 
     def FileOpenEx(self, Name, ReadOnly=False):
         p = self.Projects.Add()
-        p.Name = Name.rsplit("/", 1)[-1]
+        p.Name = os.path.basename(Name)
         p.FullName = p.Path = Name
         p.Activate()
         return True
